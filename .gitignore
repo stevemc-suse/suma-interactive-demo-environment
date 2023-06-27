@@ -1,6 +1,6 @@
 .DS_Store
 terraform.tfvars
-1-setup-env
-2-suma-server
-3-suma-extras
-4-suse-clients
+/1-setup-env
+/2-suma-server
+/3-suma-extras
+/4-suse-clients
