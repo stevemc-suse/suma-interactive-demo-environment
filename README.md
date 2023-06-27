@@ -1,4 +1,7 @@
 # suma-demo-rodeo
+
+### THIS IS BEING UPDATED (REWRITE)
+
 Building out an interactive demo environment for SUMA.
 
 To build out this environment you will need to know SUSE Manager or Uyuni.
