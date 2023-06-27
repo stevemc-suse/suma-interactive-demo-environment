@@ -30,7 +30,7 @@ resource "aws_instance" "suma" {
       host        = self.public_ip
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("${path.module}/suma-demo.pem")
+      private_key = file("../terraform.tfstate.d/suma-demo.pem")
     }
   }
 }
