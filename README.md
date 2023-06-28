@@ -1,28 +1,52 @@
 # suma-demo-rodeo
 
-### THIS IS BEING UPDATED (REWRITE)
+# THIS IS BEING UPDATED (REWRITE)
 
 Building out an interactive demo environment for SUMA.
 
 To build out this environment you will need to know SUSE Manager or Uyuni.
 You will also need access to AWS as this demo environment uses AWS EC2 machine, but can be adapted to use cloud in the future.
 
- suma-server
-	 semi-automated deployment of suse manager
 
-1. Edit the 'terraform.tfvars'
-	- AWS Key
-	- AWS Secret 
-	- SUSE Manager Subscription Key
 
-You will need to generate a 'suma-demo.pem' file in aws and makesure to download this to root of the deployment directory replaceing dummy.pem
+## 1. Edit the 'terraform.tfvars'
 
-Run 'terraform init' and wait for the modules to load. 
-(optional) Run terraform plan 
+	# AWS access key used to create infrastructure
+	aws_access_key = "<key>"
 
-Now deploy the SUSE Manager Server. 
+	# AWS secret key used to create AWS infrastructure
+	aws_secret_key = "<key>"
 
-Run 'terrform apply' monitor the AWS portal, your machine should now be deploying. 
+	# AWS region used for all resources
+	aws_region = "eu-west-1"
+
+	# SUSE Manager Subscription Key
+	suse_manager_subscription = "<key>"
+
+####Note: 
+The build has been currently tested on AWS eu-west-1 the ami images used might need to be changed for you local region.
+
+	Run 'terraform init'
+	Run 'terraform plan' 
+	Run 'terraform init'
+	
+The process will deploy the following. 
+
+mermaid<>
+
+1. SUSE Manager server 4CPU 16GB Mem, bootdisk, datadisk (suma)
+2. SUSE Manaer Proxy Server 1CPU 4GBMem, bootdisk, datadisk (suma-proxy)
+3. SUSE Manager Monitor Server 1CPU 4GB MeM, bootdisk (suma-monsrv)
+4. SUSE Manager Client Machines the number of machine deployed can be changed. [# Tested with 50 instances]
+	1. SLE15SP3 
+	1. SLE15SP4
+ 
+ Once the deployment has completed you will have several machines that are ready togo, all machines have has the /etc/hosts file updated with the SUSE Manager Server details as currently there is no DNS on the virtual machine network.
+
+
+
+
+
 
 Once done: 
 
@@ -30,11 +54,13 @@ Now attach a AWS Elastic IP to the node.
 
 connect to the server via ssh using your 'demo-suma.pem' One in run the folowing to update your SUSE Manager server. 
 
-- 'zypper up' patch and reboot the node.  (Note this is a BYOS deployment)
+	- 'zypper up' patch and reboot the node.  (Note this is a BYOS deployment)
 -  update /etc/hosts with the local IP fqdn hostname (https://documentation.suse.com/suma/4.3/en/suse-manager/installation-and-upgrade/pubcloud-requirements.html)
--  Prepare storage volumes
--- hwinfo --disk | grep -E "Device File:"
--- /usr/bin/suma-storage <devicename>
+
+Prepare storage volumes
+
+	-- hwinfo --disk | grep -E "Device File:"
+	-- /usr/bin/suma-storage <devicename>
 
 Now run 'zypper up' and patch the system once done reboot the instance. 
 
@@ -45,18 +71,18 @@ Reconnect:
 
 [note]  SUSEConnect subscription registration and the sle-module-public-cloud are done in the terraform deployment.
 
-example: 
-suma:~ # hwinfo --disk | grep -E "Device File:"
-  Device File: /dev/nvme0n1
-  Device File: /dev/nvme1n1
+### Example: 
+	suma:~ # hwinfo --disk | grep -E "Device File:"
+	Device File: /dev/nvme0n1
+	Device File: /dev/nvme1n1
 
-suma:~ # /usr/bin/suma-storage /dev/nvme1n1
---> Checking disk for content signature
---> Creating partition on disk /dev/nvme1n1
---> Creating xfs filesystem
---> Mounting storage at /manager_storage
---> Syncing SUSE Manager Server directories to storage disk(s)
---> Creating entry in /etc/fstab
+	suma:~ # /usr/bin/suma-storage /dev/nvme1n1
+	--> Checking disk for content signature
+	--> Creating partition on disk /dev/nvme1n1
+	--> Creating xfs filesystem
+	--> Mounting storage at /manager_storage
+	--> Syncing SUSE Manager Server directories to storage disk(s)
+	--> Creating entry in /etc/fstab
 
 
 
