@@ -7,9 +7,43 @@ Building out an interactive demo environment for SUMA.
 To build out this environment you will need to know SUSE Manager or Uyuni.
 You will also need access to AWS as this demo environment uses AWS EC2 machine, but can be adapted to use cloud in the future.
 
+## THINGS TO KNOW:
+
+#### What this deployment doen't do. 
+
+- VPC Deployment
+- local DNS between machines
+- SUSE Manager 
+	- File system automation
+	- Deployment automation
+	- Drgnisations Automaticly populated
+- Attach any clients to SUSE Manager
 
 
-## 1. Edit the 'terraform.tfvars'
+## THINGS TO DO:
+
+#####Security Groups 
+######1. default 
+
+
+Using the 'default' as the first security group for SUSE Manager this needs to have 
+- Outbound acess to the internet to reach SUSE Customer Center.  
+- Inbound: 
+	- http (80) & https (443) are needed to allow access to the SUSE Manager UI.
+    - SSH will be needed but lock this down 'select: My IP' with in the AWS UI.  
+
+External access is nesseray to SUSE Manager Server to run the interactive sessions for external access.  
+- All traffic trusted from the second security group 'security_groups = ["suma-clients"]' has been defined in the deployment for the client servers.
+
+#####2. suma-client
+	- Outbound: All trafic 
+	- Inbound: 
+		- All Traffic trusted -to- subnet of 'default' security group 
+		- SSH Allout from trusued IP (My IP)
+
+######** Avoid using providing SSH Access to External users for this demo enviroment.  Command to client machiens can be run from within the SUSE Manaher UI.
+# Ready to Deploy....
+#### 1. Edit the 'terraform.tfvars'
 
 	# AWS access key used to create infrastructure
 	aws_access_key = "<key>"
@@ -40,7 +74,7 @@ A[SCC] -->|internet| B(Security Goups)
 B --> C{SUMA}
 C <-->|LAN| D[suma-monsrv]
 C <-->|LAN| E[suma-proxy]
-C <-->|LAN| G[suma-client x 40]
+C <-->|LAN| G[suma-client x 50]
 
 ```
 
@@ -51,11 +85,11 @@ C <-->|LAN| G[suma-client x 40]
 	- SLE15SP3 
 	- SLE15SP4
  
- Once the deployment has completed you will have several machines that are ready to go, all machines have has the /etc/hosts file updated with the SUSE Manager Server details as currently there is no DNS on the virtual machine network [Working on changing this.]
+Once the deployment has completed, you will have several machines that are ready to go, all machines have the /etc/hosts file updated with the SUSE Manager Server details.  Currently There is no DNS on the virtual machine network. [Working on changing this.]
 
-##### Now attach a AWS Elastic IP to the node.
+##### AWS Elastic IP attached to the SUSE MAnager node is (Optional)
 
-Connect to the server via ssh using your 'demo-suma.pem' this is automaticly generated and located in the 'terraform.tfstate.d' directory within you deployment directory.
+Connect to the server(s) via ssh using the 'demo-suma.pem' this is automaticly generated and located in the 'terraform.tfstate.d' directory within you deployment directory.
 
 	- 'zypper up' patch and reboot the node.  (Note this is a BYOS deployment)
 
