@@ -22,7 +22,8 @@ You will also need access to AWS as this demo environment uses AWS EC2 machine, 
 
 ## THINGS TO DO:
 
-#####Security Groups 
+#####Security Groups
+
 ######1. default 
 
 
