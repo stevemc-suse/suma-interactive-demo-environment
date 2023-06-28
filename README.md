@@ -26,27 +26,33 @@ You will also need access to AWS as this demo environment uses AWS EC2 machine, 
 ####Note: 
 The build has been currently tested on AWS eu-west-1 the ami images used might need to be changed for you local region.
 
+#####[note]  SUSEConnect subscription registration of the SUSE Manaher Server is part of the automation also the sle-module-public-cloud are loaded in the terraform deployment as well.
+
 	Run 'terraform init'
 	Run 'terraform plan' 
 	Run 'terraform init'
 	
 The process will deploy the following. 
 
-mermaid<>
+```mermaid 
+flowchart 
+
+A[SCC] -->|internet| B(Security Goups)
+B --> C{SUMA}
+C <-->|LAN| D[suma-monsrv]
+C <-->|LAN| E[suma-proxy]
+C <-->|LAN| G[suma-client x 40]
+
+```
 
 1. SUSE Manager server 4CPU 16GB Mem, bootdisk, datadisk (suma)
 2. SUSE Manaer Proxy Server 1CPU 4GBMem, bootdisk, datadisk (suma-proxy)
 3. SUSE Manager Monitor Server 1CPU 4GB MeM, bootdisk (suma-monsrv)
-4. SUSE Manager Client Machines the number of machine deployed can be changed. [# Tested with 50 instances]
+4. SUSE Manager Client Machines.  You the number of machine deployed can be changed int the 'infra.tf' look for 'count = 1' [# Tested with 50 instances]
 	1. SLE15SP3 
 	1. SLE15SP4
  
  Once the deployment has completed you will have several machines that are ready togo, all machines have has the /etc/hosts file updated with the SUSE Manager Server details as currently there is no DNS on the virtual machine network.
-
-
-
-
-
 
 Once done: 
 
@@ -57,7 +63,7 @@ connect to the server via ssh using your 'demo-suma.pem' One in run the folowing
 	- 'zypper up' patch and reboot the node.  (Note this is a BYOS deployment)
 -  update /etc/hosts with the local IP fqdn hostname (https://documentation.suse.com/suma/4.3/en/suse-manager/installation-and-upgrade/pubcloud-requirements.html)
 
-Prepare storage volumes
+Prepare storage volumes [Future plan to automate this]
 
 	-- hwinfo --disk | grep -E "Device File:"
 	-- /usr/bin/suma-storage <devicename>
@@ -82,4 +88,3 @@ Reconnect:
 - Installing SUSE Manager follow the public cloud docs: 
 	https://documentation.suse.com/suma/4.3/en/suse-manager/installation-and-upgrade/pubcloud-setup.html
 
-[note]  SUSEConnect subscription registration and the sle-module-public-cloud are done in the terraform deployment.
