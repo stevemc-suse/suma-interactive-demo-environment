@@ -56,19 +56,19 @@ C <-->|LAN| G[suma-client x 40]
 
 Once done: 
 
-Now attach a AWS Elastic IP to the node.
+##### Now attach a AWS Elastic IP to the node.
 
-connect to the server via ssh using your 'demo-suma.pem' One in run the folowing to update your SUSE Manager server. 
+Connect to the server via ssh using your 'demo-suma.pem' this is automaticly generated and located in the 'terraform.tfstate.d' directory within you deployment directory.
 
 	- 'zypper up' patch and reboot the node.  (Note this is a BYOS deployment)
--  update /etc/hosts with the local IP fqdn hostname (https://documentation.suse.com/suma/4.3/en/suse-manager/installation-and-upgrade/pubcloud-requirements.html)
 
-Prepare storage volumes [Future plan to automate this]
+
+#####Prepare storage volumes [Future plan to automate this]
 
 	-- hwinfo --disk | grep -E "Device File:"
 	-- /usr/bin/suma-storage <devicename>
 
-### Example: 
+##### Example: 
 	suma:~ # hwinfo --disk | grep -E "Device File:"
 	Device File: /dev/nvme0n1
 	Device File: /dev/nvme1n1
