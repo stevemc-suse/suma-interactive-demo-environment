@@ -62,15 +62,6 @@ Prepare storage volumes
 	-- hwinfo --disk | grep -E "Device File:"
 	-- /usr/bin/suma-storage <devicename>
 
-Now run 'zypper up' and patch the system once done reboot the instance. 
-
-Reconnect:
-
-- Installing SUSE Manager follow the public cloud docs: 
-	https://documentation.suse.com/suma/4.3/en/suse-manager/installation-and-upgrade/pubcloud-setup.html
-
-[note]  SUSEConnect subscription registration and the sle-module-public-cloud are done in the terraform deployment.
-
 ### Example: 
 	suma:~ # hwinfo --disk | grep -E "Device File:"
 	Device File: /dev/nvme0n1
@@ -84,7 +75,11 @@ Reconnect:
 	--> Syncing SUSE Manager Server directories to storage disk(s)
 	--> Creating entry in /etc/fstab
 
+Now run 'zypper up' and patch the system once done reboot the instance. 
 
+Reconnect:
 
+- Installing SUSE Manager follow the public cloud docs: 
+	https://documentation.suse.com/suma/4.3/en/suse-manager/installation-and-upgrade/pubcloud-setup.html
 
-
+[note]  SUSEConnect subscription registration and the sle-module-public-cloud are done in the terraform deployment.
