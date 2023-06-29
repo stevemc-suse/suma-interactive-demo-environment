@@ -53,6 +53,7 @@ resource "aws_instance" "suma" {
   provisioner "remote-exec" {
     inline = [
       "sudo hostnamectl set-hostname suma", 
+      "echo '${aws_instance.suma.private_ip} suma.geekosoup.com suma salt' | sudo tee -a /etc/hosts",
       "sudo SUSEConnect -r ${var.suse_manager_subscription}",
       "sudo SUSEConnect -p sle-module-public-cloud/15.4/x86_64"
     ]
