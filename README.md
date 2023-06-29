@@ -17,7 +17,7 @@ You will also need access to AWS as this demo environment uses AWS EC2 machine, 
 	- File system automation
 	- Deployment automation
 	- Orgnisations Automaticly populated
-	- Attch to SCC and sync software repos
+	- Attach to SCC and sync software repos
 - Attach any clients to SUSE Manager
 
 
