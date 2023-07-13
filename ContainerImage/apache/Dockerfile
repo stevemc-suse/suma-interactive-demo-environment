@@ -1,4 +1,4 @@
-FROM  registry.suse.com/bci/bci-base:latest
+FROM  http://10.120.0.127:5000/mybci-minimal
 LABEL maintainer="Steve McBride <steve.mcbride@suse.com>"
 LABEL name="SUSE Manager apache build profile with BCI Container Image"
 LABEL version="1.0"
