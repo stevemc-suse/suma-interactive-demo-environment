@@ -23,9 +23,9 @@ You will also need access to AWS as this demo environment uses AWS EC2 machine, 
 
 ## THINGS TO DO:
 
-#####Security Groups
+Security Groups
 
-######1. default 
+1. default 
 
 
 Using the 'default' as the first security group for SUSE Manager this needs to have 
@@ -37,7 +37,7 @@ Using the 'default' as the first security group for SUSE Manager this needs to h
 External access is nesseray to SUSE Manager Server to run the interactive sessions for external access.  
 - All traffic trusted from the second security group 'security_groups = ["suma-clients"]' has been defined in the deployment for the client servers.
 
-#####2. suma-client
+2. suma-client
 	- Outbound: All trafic 
 	- Inbound: 
 		- All Traffic trusted -to- subnet of 'default' security group 
