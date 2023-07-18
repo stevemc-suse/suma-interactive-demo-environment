@@ -25,3 +25,9 @@ variable "suse_manager_subscription" {
   type        = string
   description = "SUSE Manager Subscription Key"
 }
+
+# Required
+variable "domain_name" {
+  type        = string
+  description = "Just a domain name"
+}
