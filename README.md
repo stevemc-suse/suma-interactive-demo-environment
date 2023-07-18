@@ -72,11 +72,12 @@ The process will deploy the following.
 ```mermaid 
 flowchart 
 
-A[SCC] -->|internet| B(Security Goups)
-B --> C{SUMA}
-C <-->|LAN| D[suma-monsrv]
-C <-->|LAN| E[suma-proxy]
-C <-->|LAN| G[suma-client x 50]
+A[SCC] <--> |internet| B( Default Security Goups)
+F(SUMA Client Security Group)
+B <--> C{SUMA}
+C <--> F <--> D[suma-monsrv]
+F <--> E[suma-proxy]
+F <--> G[suma-client x 50] 
 
 ```
 
