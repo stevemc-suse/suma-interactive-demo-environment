@@ -9,3 +9,6 @@ aws_region = "eu-west-1"
 
 # SUSE Manager Subscription Key
 suse_manager_subscription = "<key>"
+
+# Just another domain name
+domain_name = "geekosoup.com"
