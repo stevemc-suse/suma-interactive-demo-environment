@@ -90,7 +90,7 @@ F <--> G[suma-client x 50]
  
 Once the deployment has completed, you will have several machines that are ready to go, all machines have the /etc/hosts file updated with the SUSE Manager Server details.  Currently There is no DNS on the virtual machine network. [Working on changing this.]
 
-##### AWS Elastic IP attached to the SUSE MAnager node is (Optional):wq
+##### AWS Elastic IP attached to the SUSE MAnager node is (Optional)
 
 Connect to the server(s) via ssh using the 'demo-suma.pem' this is automaticly generated and located in the 'terraform.tfstate.d' directory within you deployment directory.
 
