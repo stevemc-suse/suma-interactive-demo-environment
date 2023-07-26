@@ -34,7 +34,7 @@ resource "aws_instance" "suma" {
   ami           = "ami-0365f8f06cbc8bf57"  # Replace with the correct SUSE Manager  AMI ID
   instance_type = "t3.xlarge"  # Replace with the desired instance type
   key_name      = "suma-demo"  # Replace with the name of your keypair
-
+  
   ebs_block_device {
     device_name = "/dev/sda1"
     volume_size = 64
@@ -131,15 +131,15 @@ resource "aws_instance" "suma-monsrv" {
   }
 }
 
-resource "aws_instance" "sle15sp3" {
-  count         = 1
+resource "aws_instance" "dev" {
+  count         = 2
   ami           = "ami-0a6802b4742e7fdf6"  # Replace with the correct SLE15SP3 AMI ID
   instance_type = "t2.micro"  # Replace with the desired instance type
   key_name      = "suma-demo"  # Replace with the name of your keypair
   security_groups = ["suma-clients"]
 
   tags = {
-    Name = "${count.index + 1}-sle15-server"
+    Name = "${count.index + 1}-dev-server"
   }
 
   provisioner "remote-exec" {
@@ -160,15 +160,43 @@ resource "aws_instance" "sle15sp3" {
   }
 }
 
-resource "aws_instance" "sle12sp5" {
-  count         = 1
-  ami           = "ami-00cece0cb7d8e8ee4"  # Replace with the correct SLE12SP5 AMI ID
+resource "aws_instance" "qat" {
+  count         = 2
+  ami           = "ami-0a6802b4742e7fdf6"  # Replace with the correct SLE12SP5 AMI ID
   instance_type = "t2.micro"  # Replace with the desired instance type
   key_name      = "suma-demo"  # Replace with the name of your keypair
   security_groups = ["suma-clients"]
 
   tags = {
-    Name = "${count.index + 1}-sle12-server"
+    Name = "${count.index + 1}-qat-server"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo hostnamectl set-hostname ${self.tags.Name}",
+      "echo '${aws_instance.suma.private_ip} suma.geekosoup.com suma salt' | sudo tee -a /etc/hosts",
+      "echo '${aws_instance.suma-monsrv.private_ip} suma-monsrv.geekosoup.com suma-monsrv' | sudo tee -a /etc/hosts",
+      "echo '${aws_instance.suma-proxy.private_ip} suma-proxy.geekosoup.com suma-proxy' | sudo tee -a /etc/hosts"
+    ]
+
+
+    connection {
+      host        = self.public_ip
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = "${tls_private_key.global_key.private_key_pem}"
+    }
+  }
+}
+
+resource "aws_instance" "prd" {
+  count         = 2
+  ami           = "ami-0a6802b4742e7fdf6"  # Replace with the correct SLE12SP5 AMI ID
+  instance_type = "t2.micro"  # Replace with the desired instance type
+  key_name      = "suma-demo"  # Replace with the name of your keypair
+  security_groups = ["suma-clients"]
+
+  tags = {
+    Name = "${count.index + 1}-prd-server"
   }
   provisioner "remote-exec" {
     inline = [
@@ -191,11 +219,14 @@ resource "aws_instance" "sle12sp5" {
 # Generate the inventory file for the use with ansible
 locals {
   inventory_content = <<INVENTORY
-[sle15sp3]
-${join("\n", [for instance in aws_instance.sle15sp3 : "${instance.public_ip}"])} 
+[dev]
+${join("\n", [for instance in aws_instance.dev : "${instance.public_ip}"])} 
 
-[sle12sp5]
-${join("\n", [for instance in aws_instance.sle12sp5 : "${instance.public_ip}"])}
+[qat]
+${join("\n", [for instance in aws_instance.qat : "${instance.public_ip}"])} 
+
+[prd]
+${join("\n", [for instance in aws_instance.prd : "${instance.public_ip}"])}
 INVENTORY
 }
 
@@ -208,9 +239,11 @@ resource "local_file" "inventory" {
 # Generate the inventory hostfile this will need to be coppied to SUSE Manager  
 locals {
   inventory_content_hostfile = <<INVENTORY
-${join("\n", [for instance in aws_instance.sle15sp3 : "${instance.private_ip} ${instance.tags.Name}"])}
+${join("\n", [for instance in aws_instance.dev : "${instance.private_ip} ${instance.tags.Name}"])}
 
-${join("\n", [for instance in aws_instance.sle12sp5 : "${instance.private_ip} ${instance.tags.Name}"])}
+${join("\n", [for instance in aws_instance.qat : "${instance.private_ip} ${instance.tags.Name}"])}
+
+${join("\n", [for instance in aws_instance.prd : "${instance.private_ip} ${instance.tags.Name}"])}
 INVENTORY
 }
 
