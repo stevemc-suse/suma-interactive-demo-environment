@@ -92,7 +92,7 @@ Once the deployment has completed, you will have several machines that are ready
 
 ##### AWS Elastic IP attached to the SUSE MAnager node is (Optional)
 
-Connect to the server(s) via ssh using the 'demo-suma.pem' this is automaticly generated and located in the 'terraform.tfstate.d' directory within you deployment directory.
+Connect to the server(s) via ssh using the 'demo-suma.pem' this is automatically generated and located in the 'terraform.tfstate.d' directory within you deployment directory.
 
 	- 'zypper up' patch and reboot the node.  (Note this is a BYOS deployment)
 
