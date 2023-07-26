@@ -1,4 +1,4 @@
-# suma-demo-rodeo
+# suma-interactive-demo-environment
 
 Building out an interactive demo environment for SUMA.
 
