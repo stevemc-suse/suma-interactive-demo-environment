@@ -7,7 +7,7 @@ You will also need access to AWS as this demo environment uses AWS EC2 machines,
 
 ## THINGS TO KNOW:
 
-#### What this deployment doen't do. 
+#### What this deployment doesn't do. 
 
 - VPC Deployment
 - local DNS between machines
