@@ -122,3 +122,8 @@ Reconnect:
 - Installing SUSE Manager follow the public cloud docs: 
 	https://documentation.suse.com/suma/4.3/en/suse-manager/installation-and-upgrade/pubcloud-setup.html
 
+### gen_orgs.sh
+
+- This script need to coppied to the SUSE Manager machine and run, this is responsible for the seup up of the Orgnisations, OrgUsers also default password.  The script uses 'spacecmd' to preform its tasks.
+
+  
