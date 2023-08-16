@@ -124,6 +124,6 @@ Reconnect:
 
 ### gen_orgs.sh
 
-- This script need to coppied to the SUSE Manager machine and run, this is responsible for the seup up of the Orgnisations, OrgUsers also default password.  The script uses 'spacecmd' to preform its tasks.
+- This script need to coppied to the SUSE Manager machine and run, this is responsible for the seup up of the Orgnisations, OrgUsers also default password.  The script uses 'spacecmd' to preform its tasks.  PLEASE Note you will need to edit the script with the SUSE Manager 'admin' password.
 
   
