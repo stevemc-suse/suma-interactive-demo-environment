@@ -86,7 +86,7 @@ F <--> G[suma-client x 50]
 - SUSE Manager Monitor Server 1CPU 4GB Mem, bootdisk (suma-monsrv)
 - SUSE Manager Client Machines are using SLE15SP3 and number of machines deployed can be changed in the 'infra.tf' look for 'count = 1' [# Tested with 50 instances]
 
-### Why SLE15SP3 - This will allow you to show the SP upgrade also skip betweeng service packs. 
+### Why SLE15SP3 - This will allow you to show the SP upgrade also skip between service packs. 
  
 Once the deployment has completed, you will have several machines that are ready to go, all machines have the /etc/hosts file updated with the SUSE Manager Server details.  Currently There is no DNS on the virtual machine network. [Working on changing this.]
 
